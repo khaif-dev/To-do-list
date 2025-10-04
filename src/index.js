@@ -1,7 +1,11 @@
 import "./style.css";
+import defaultProject from "../defaultProject";
 import createProject from "../createProject";
 import createTask from "../createTask";
 
+document.addEventListener('DOMContentLoaded',()=>{
+    defaultProject();
+});
 // function to toggle modals
 const modalOverlay = document.querySelector('.modal-overlay');
 function toggleModal(modal){
