@@ -7,3 +7,247 @@ html{
     font-size: 62.5%;
     line-break: 1.6;
 }
+
+:root {
+    --primary: #1A73E8;
+    --secondary: #185ABC;
+    --primary-light: #5697F0;
+    --background: #FFFFFF;
+    --background2: #F1F3F4;
+    --border: #E0E0E0;
+    --primary-text: #202124;
+    --secondary-text: #5F6368;
+    --disabled: #BDC1C6;
+}
+body{
+    background: var(--background2);
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    font-size: 2.8rem;
+    /* background-color: red; */
+}
+.brand{
+    display: flex;
+    gap: 10px;
+    color: var(--primary);
+    align-items: center;
+}
+.brand i{    
+    font-size: 2.8rem;
+}
+.brand h1{
+    font-size: 2.8rem;
+}
+.container{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "aside main";
+}
+aside{
+    grid-area: aside;
+    width: 250px;
+    height: 80vh;
+    padding: 2rem ;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+button{
+    padding: 1rem;
+    font-size: 1.5rem;
+    color:  var(--background);
+    background: var(--primary);
+    border: none;
+    border-radius: 20px;
+}
+button:hover{
+    background: var(--background);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    transform: translateY(-4px);
+}
+.addTask,
+.addProject{
+    font-weight: 500;
+}
+
+.aside-content{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+}
+.content-title{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+}
+.projects-container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.content-title h1{
+    font-size: 2rem;
+}
+.content-items{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+.content-items p{
+    font-size: 1.8rem;
+    font-weight: lighter;
+}
+i{
+    font-size: 1.8rem;
+}
+.fa-trash:hover{
+    color: red;
+}
+.fa-pen-to-square:hover{
+    color: green;
+}
+i:hover{
+    color: var(--primary);
+}
+/* main content */
+main{
+    grid-area: main;
+    height: 100%;
+    padding: 1rem;
+    position: relative;
+}
+
+.empty{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+}
+
+.task-bottom{
+    border: 1px solid white;
+    font-size: 2.8rem;
+    border-radius: 50%;
+    padding: 1rem;
+    position: absolute;
+    bottom: 0%;
+    right: 0%;
+}
+
+/* modal */
+.modal-overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 999;
+}
+.modal-overlay.active{
+    display: block;
+}
+.modal{
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    background-color: var(--background);
+    padding: 1rem;
+    border-radius: 12px;
+    width: 40%;
+    margin-bottom: 20px;
+    z-index: 1000;    
+}
+.modal.active{
+    display: flex;
+}
+.close{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    font-size: 3rem;
+    font-weight: 600;
+    padding: 20px ;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 20px;
+    margin-top: 20px;
+}
+input, 
+textarea,
+select {
+    padding: 10px;
+    font-size: 1.5rem;
+}
+#task-name,
+#project-name{
+    border: none;
+    border-bottom: 1px solid grey;
+}
+.date-time{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.save{
+    text-align: right;
+    padding: 0px 20px 10px;
+}
+.saveBtn{
+    font-size: 1.8rem;
+}
+
+/* project display */
+.project-display{
+    height: 100%;
+    padding: 1rem;
+}
+.project-title{
+    text-align: center;
+    font-size: 2.3rem;
+}
+.tasks-container{
+    display: grid;
+    grid-template-rows: auto;
+    gap: 20px;
+    padding: 3rem;
+}
+.task-cards{
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    align-items: center;
+    background-color: var(--background);
+    box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.3);
+}
+.task-content{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.task-content h1{
+    font-size: 1.8rem;
+    font-weight: lighter;
+}
+.task-content p{
+    font-size: 1.5rem;
+}
+.task-actions i{
+    font-size: 1.5rem;
+}

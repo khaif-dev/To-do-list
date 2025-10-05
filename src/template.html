@@ -3,9 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="./style.css"> -->
     <title>To do list</title>
 </head>
 <body>
-    
+    <header>
+        
+        <div class="brand">
+            <i class="fa-solid fa-bars"></i>
+            <h1>To Do</h1>
+        </div>
+        <div class="header-right">JW</div>
+    </header>
+    <div class="container">
+        <aside>
+            <button class="addTask"><i class="fa-solid fa-plus"></i> Add Task</button>
+            <div class="aside-content">
+                <div class="content-title">
+                    <h1>My Projects</h1>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="projects-container">
+                     <!-- add project by js -->
+                </div>               
+            </div>
+            <button class="addProject"><i class="fa-solid fa-plus"></i> New Project</button>
+        </aside>
+        <main>
+            <div class="project-display">
+                <div class="inbox"></div>
+                <!-- title by js -->
+                <!-- tasks by js -->
+                </div>
+            </div>
+            <div class="empty">
+                <h1>No Tasks here</h1>
+                <p>add tasks to get started</p>
+            </div>
+            <button class="task-bottom"><i class="fa-solid fa-plus"></i></button>
+        </main>
+
+        <!-- modals -->
+         <div class="modal-overlay"></div>
+         <!-- project modal -->
+         <div class="modal" id="project-modal">
+            <div class="close">&times;</div>
+            <form action="post" id="project-form">
+                <input type="text" id="project-name" placeholder="Project Name">            
+            </form>
+            <div class="save">
+                <button class="saveBtn" id="create-project">save</button>
+            </div>
+         </div>
+         
+         <!-- task modal -->
+         <div class="modal" id="task-modal">
+            <div class="close">&times;</div>
+            <form action="post">
+                <input type="text" placeholder="Add Task" id="task-name">
+                <div class="date-time">
+                    <input type="date" id="due-date">
+                    <input type="time" id="due-time" value="00:00">
+                </div>
+                <textarea name="description" id="description" placeholder="Add description" rows="5"></textarea>
+                <select name="priority" id="priority">
+                    <option value="low" selected>low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">High</option>
+                </select>
+            </form>
+            <div class="save">
+                <button class="saveBtn" id="create-task">save</button>
+            </div>
+         </div>
 </body>
 </html>
