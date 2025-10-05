@@ -1,11 +1,14 @@
 import "./style.css";
-import defaultProject from "../defaultProject";
-import createProject from "../createProject";
-import createTask from "../createTask";
+import "@fortawesome/fontawesome-free/css/all.css";
+import { myProjects } from "./myProjects";
+import { createProject, addProject } from "./createProject";
+import { displayProject } from "./display";
+import { createTask } from "./createTask";
+import { addTaskToProject } from "./createTask";
+import { displayTask } from "./display";
 
-document.addEventListener('DOMContentLoaded',()=>{
-    defaultProject();
-});
+
+
 // function to toggle modals
 const modalOverlay = document.querySelector('.modal-overlay');
 function toggleModal(modal){
@@ -28,27 +31,11 @@ addTaskBottom.addEventListener('click',()=>{
     toggleModal(taskModal);
 });
 
-// // edit task
-// const editTaskBtn = document.querySelector('.edit-task');
-// editTaskBtn.addEventListener('click', () =>{
-//     const taskModal = document.getElementById('task-modal');
-//     toggleModal(taskModal);
-// });
-
 // open project modal
-const addProject = document.querySelector('.addProject');
-addProject.addEventListener('click', ()=>{
+const addProjectBtn = document.querySelector('.addProject');
+addProjectBtn.addEventListener('click', ()=>{
     const projectModal = document.getElementById('project-modal');
     toggleModal(projectModal);
-});
-
-// edit project
-const editProjectBtn = document.querySelectorAll('#edit-project');
-editProjectBtn.forEach(button => {
-    button.addEventListener('click', () => {
-        const projectModal = document.getElementById('project-modal');
-        toggleModal(projectModal)        
-    });
 });
 
 
@@ -70,46 +57,74 @@ modalOverlay.addEventListener('click', () => {
     modalOverlay.classList.toggle('active');   
 });
 
-// save  and display project
+
+// Default Project that displays when dom first loads
+document.addEventListener('DOMContentLoaded', ()=>{
+    const project = createProject("Inbox");
+    addProject(project);
+    currentProjectId = project.id;
+    displayProject(onSelectProject);
+});
+
+// save  and display new project
 const createProjectBtn = document.getElementById('create-project');
 createProjectBtn.addEventListener('click', ()=>{
-    // hide the empty state
-    const empyState = document.querySelector('.empty');
-    empyState.style.display = 'none';
-    //close modal
+    // close modal
     const projectModal = document.getElementById('project-modal');
     toggleModal(projectModal);
-    // display project
-    displayProject();  
+
+    // create new project
+    const name = document.getElementById('project-name').value.trim();
+    const project = createProject(name);
+    addProject(project);
+    currentProjectId = project.id;
+    displayProject(onSelectProject);
+
     // reset form
     const form = projectModal.querySelector('form');
     form.reset();
-  
 });
 
-// function to display project
-function displayProject(){
-    createProject();
+// define currentProjectId so we know which project task is being added and is to be displayed
+let currentProjectId = null;
 
+// callback for when a project is clicked
+function onSelectProject(projectId) {
+    currentProjectId = projectId;
+
+    const project = myProjects.find(p => p.id === projectId);
+    if (project) {
+        displayTask(project.tasks);
+    }
 }
 
-// save and display tasks
+// create, save and display tasks
 const createTaskBtn = document.getElementById('create-task');
 createTaskBtn.addEventListener('click', () => {
     // hide the empty state
-    const empyState = document.querySelector('.empty');
-    empyState.style.display = 'none';
+    const emptyState = document.querySelector('.empty');
+    emptyState.style.display = 'none';
     //close modal
     const taskModal = document.getElementById('task-modal');
     toggleModal(taskModal);
-    // display project
-    displayTask(); 
+    
+    // get input from form
+    const name = document.getElementById('task-name').value.trim();
+    const dueDate = document.getElementById('due-date').value;
+    const dueTime = document.getElementById('due-time').value;
+    const description = document.getElementById('description').value;
+    const priority = document.getElementById('priority').value;
+
+    const task = createTask(name, dueDate, dueTime, description, priority);
+    if (currentProjectId) {
+        addTaskToProject(currentProjectId, task);
+
+        const project = myProjects.find(p => p.id === currentProjectId);
+        displayTask(project.tasks);
+    }
+
     // reset form
     const form = taskModal.querySelector('form');
     form.reset();
 });
 
-// function to display tasks
-function displayTask(){
-    createTask();
-}
