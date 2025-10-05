@@ -1,65 +1,15 @@
-//factory function to create project with edit and add tasks
+import { myProjects } from "./myProjects"; 
+
 function createProject(name){
-    // create
     return{
         id: Date.now(),
         name,
-        tasks:[],
-
-        // edit
-        editProject(newName){
-            this.name = newName 
-        },
-        // addTask
-        addTask(task){
-            this.tasks.push(task);
-        }
+        tasks: []
     };
 }
 
-function createProject(name){
-    // create project
-    
-
-    const myProjects = [];
-
-    // get values from form
-    const projectName = document.getElementById('project-name').value;
-
-    // object project
-    const project ={
-        id: Date.now(),
-        name: projectName
-    }
+function addProject(project){
     myProjects.push(project);
-
-    // display project
-    const projectDisplay = document.querySelector('.project-display');
-    // clear display before appending
-    projectDisplay.innerHTML = "";
-    // create project title and append to dispay
-    const projectTitle = document.createElement('h1');
-    projectTitle.className = 'project-title';
-    projectTitle.innerHTML =`${project.name}`;
-    projectDisplay.appendChild(projectTitle); 
-    
-    // create task container and append to display
-    const tasksContainer = document.createElement('tasks-container');
-    tasksContainer.className = 'tasks-container';
-    projectDisplay.appendChild(tasksContainer);
-
-    // add project to aside content
-    const asideContent = document.querySelector('.aside-content');
-    const contentItems = document.createElement('div');
-    contentItems.className = 'content-items';
-    contentItems.innerHTML = `
-        <h2>${project.name}</h2>
-        <div class="project-action">
-            <i class="fa-solid fa-pen-to-square"></i>
-            <i class="fa-solid fa-trash"></i>
-        </div>`;
-    asideContent.appendChild(contentItems); 
-
 }
 
-export default createProject;
+export { createProject, addProject};
