@@ -6,6 +6,7 @@ function createProject(name){
         name,
         tasks: []
     };
+
 }
 
 function addProject(project){
