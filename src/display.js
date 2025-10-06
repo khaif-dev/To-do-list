@@ -1,5 +1,5 @@
 import { myProjects } from "./myProjects";
-
+import { toggleModal } from ".";
 
 function displayProject(){
     const projectContainer = document.querySelector('.projects-container');
@@ -10,7 +10,7 @@ function displayProject(){
         const contentItems = document.createElement('div');
         contentItems.className = 'content-items';
         contentItems.innerHTML = `
-            <p>${project.name}</p>
+            <p class= "edit-project">${project.name}</p>
             <div class="project-action">
                 <i class="fa-solid fa-pen-to-square"></i>
                 <i class="fa-solid fa-trash"></i>
@@ -52,11 +52,25 @@ function displayProject(){
             const index = myProjects.findIndex(p => p.id === selectedProjectId);
             if(index >= 0){
                 myProjects.splice(index, 1);
+                projectTitle.textContent = '';
             }
             displayProject();
         }); 
         
-        
+        // edit project
+        const editProjectBtn = contentItems.querySelector('.fa-pen-to-square');
+        editProjectBtn.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            const selectedProjectId = project.id;
+            // open modal
+            const projectModal = document.querySelector('#project-modal');
+            toggleModal(projectModal);
+            document.getElementById('project-name').value = project.name;
+
+            // target project
+            projectModal.dataset.editingProjectId = project.id;
+                      
+        });
     });            
 
 }
@@ -94,7 +108,23 @@ function displayTasks(tasks){
                 }
                   displayTasks(tasks);
             });
-        
+
+            // edit task
+            const editTaskBtn = taskCard.querySelector('.fa-pen-to-square');
+            editTaskBtn.addEventListener('click',()=>{
+                const taskModal = document.querySelector('#task-modal');
+                toggleModal(taskModal);
+
+                    // display modal with existing data
+                    document.getElementById('task-name').value = task.name;
+                    document.getElementById('due-date').value = task.dueDate;
+                    document.getElementById('due-time').value = task.dueTime;
+                    document.getElementById('description').value = task.description;
+                    document.getElementById('priority').value = task.priority;
+
+                    // s
+            });
+    
         tasksContainer.appendChild(taskCard);    
     });   
 
