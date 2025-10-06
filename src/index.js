@@ -102,14 +102,26 @@ createTaskBtn.addEventListener('click', () => {
     const description = document.getElementById('description').value;
     const priority = document.getElementById('priority').value;
 
-    if (currentProjectId) {
+    // if there is no project create a default project before adding tasks
+    if(myProjects.length === 0){
+        const project = createProject("Inbox");
+        addProject(project);
+        currentProjectId = project.id;
+        displayProject();
+
+        const task = createTask(name, dueDate, dueTime, description, priority);
+        addTaskToProject(currentProjectId, task);
+        displayTasks(project.tasks);
+    }else if (currentProjectId) {
         const task = createTask(name, dueDate, dueTime, description, priority);
         addTaskToProject(currentProjectId, task);
 
         const project = myProjects.find(p => p.id === currentProjectId);
         displayTasks(project.tasks);
-    }
-    // console.log(task, currentProjectId);
+    }  
+
+    // updating a project
+
 
     // reset form
     const form = taskModal.querySelector('form');
@@ -117,3 +129,5 @@ createTaskBtn.addEventListener('click', () => {
 });
 
 console.log(myProjects);
+
+export { toggleModal };
