@@ -2,11 +2,9 @@ import "./style.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import { myProjects } from "./myProjects";
 import { createProject, addProject } from "./createProject";
-import { displayProject } from "./display";
+import { displayProject, displayTasks } from "./display";
 import { createTask } from "./createTask";
 import { addTaskToProject } from "./createTask";
-import { displayTask } from "./display";
-
 
 
 // function to toggle modals
@@ -57,13 +55,13 @@ modalOverlay.addEventListener('click', () => {
     modalOverlay.classList.toggle('active');   
 });
 
-
+let currentProjectId = null;
 // Default Project that displays when dom first loads
 document.addEventListener('DOMContentLoaded', ()=>{
     const project = createProject("Inbox");
     addProject(project);
     currentProjectId = project.id;
-    displayProject(onSelectProject);
+    displayProject();
 });
 
 // save  and display new project
@@ -72,31 +70,20 @@ createProjectBtn.addEventListener('click', ()=>{
     // close modal
     const projectModal = document.getElementById('project-modal');
     toggleModal(projectModal);
-
+    
     // create new project
     const name = document.getElementById('project-name').value.trim();
     const project = createProject(name);
     addProject(project);
     currentProjectId = project.id;
-    displayProject(onSelectProject);
+    displayProject();
+    // displaySelected(project)
+
 
     // reset form
     const form = projectModal.querySelector('form');
     form.reset();
 });
-
-// define currentProjectId so we know which project task is being added and is to be displayed
-let currentProjectId = null;
-
-// callback for when a project is clicked
-function onSelectProject(projectId) {
-    currentProjectId = projectId;
-
-    const project = myProjects.find(p => p.id === projectId);
-    if (project) {
-        displayTask(project.tasks);
-    }
-}
 
 // create, save and display tasks
 const createTaskBtn = document.getElementById('create-task');
@@ -115,16 +102,18 @@ createTaskBtn.addEventListener('click', () => {
     const description = document.getElementById('description').value;
     const priority = document.getElementById('priority').value;
 
-    const task = createTask(name, dueDate, dueTime, description, priority);
     if (currentProjectId) {
+        const task = createTask(name, dueDate, dueTime, description, priority);
         addTaskToProject(currentProjectId, task);
 
         const project = myProjects.find(p => p.id === currentProjectId);
-        displayTask(project.tasks);
+        displayTasks(project.tasks);
     }
+    // console.log(task, currentProjectId);
 
     // reset form
     const form = taskModal.querySelector('form');
     form.reset();
 });
 
+console.log(myProjects);
