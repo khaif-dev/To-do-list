@@ -1,12 +1,12 @@
 import { myProjects } from "./myProjects";
 
+
 function displayProject(){
-    // display all the projects in the sidebar
     const projectContainer = document.querySelector('.projects-container');
     projectContainer.innerHTML = "";
 
+    // on the sidebar list
     myProjects.forEach(project=>{
-        // add project to aside content
         const contentItems = document.createElement('div');
         contentItems.className = 'content-items';
         contentItems.innerHTML = `
@@ -17,39 +17,55 @@ function displayProject(){
             </div>`;
         projectContainer.appendChild(contentItems); 
 
-        // add eventlistener to add project to main display when clicked
-        contentItems.addEventListener('click', ()=>{
-            onSelectProject(project.id)
+        //on the main display
+        // update project tilte
+        const projectTitle = document.querySelector('.project-title');
+        projectTitle.textContent = project.name;
+
+        // clear the tasks continer
+        const tasksContainer = document.querySelector('.tasks-container');
+        tasksContainer.innerHTML = '';  
+        
+        // select project
+        contentItems.project = project;
+        contentItems.addEventListener('click', () =>{
+            // clear project title and tasks container
+            projectTitle.textContent = ''; 
+            tasksContainer.innerHTML = '';
+
+            // retrieve the selected heading and title
+            const selectedProject = project;
+            console.log(selectedProject);
+            if(selectedProject){                    
+                projectTitle.textContent = selectedProject.name;
+                displayTasks(selectedProject.tasks);
+            }     
+
         });
 
-    });
-
-    //Display only last project in the array in the main display
-    const projectDisplay = document.querySelector('.project-display');
-    projectDisplay.innerHTML = "";
-
-    const displayedProject = myProjects[myProjects.length -1];
-    if(displayedProject){
-        // create project title and append to dispay
-        const projectTitle = document.createElement('h1');
-        projectTitle.className = 'project-title';
-        projectTitle.innerHTML =`${displayedProject.name}`;
-        projectDisplay.appendChild(projectTitle); 
+        // delete project
+        const deleteProjectBtn = contentItems.querySelector('.fa-trash');         
+        deleteProjectBtn.addEventListener('click',(e) => {
+            deleteProjectBtn.project = project; //ties each button directly to the project
+            e.stopPropagation();
+            const selectedProjectId = project.id;
+            const index = myProjects.findIndex(p => p.id === selectedProjectId);
+            if(index >= 0){
+                myProjects.splice(index, 1);
+            }
+            displayProject();
+        }); 
         
-        // create task container and append to display
-        const tasksContainer = document.createElement('tasks-container');
-        tasksContainer.className = 'tasks-container';
-        projectDisplay.appendChild(tasksContainer);
-
-    }
+        
+    });            
 
 }
 
-// display Tasks
-function displayTask(tasks) {
+function displayTasks(tasks){
     const tasksContainer = document.querySelector('.tasks-container');
-    tasksContainer.innerHTML = "";
+    tasksContainer.innerHTML = '';
 
+    // create a task card for each task
     tasks.forEach(task => {
         const taskCard = document.createElement('div');
         taskCard.className = 'task-cards';
@@ -62,10 +78,26 @@ function displayTask(tasks) {
             <div class="task-actions">
                 <i class="fa-solid fa-pen-to-square"></i>
                 <i class="fa-solid fa-trash"></i>
-            </div>`;
-        tasksContainer.appendChild(taskCard);
-    });
+            </div>`; 
+
+            // delete task
+            const deleteTaskBtn = taskCard.querySelector('.fa-trash');
+            deleteTaskBtn.addEventListener('click', () => {
+                deleteTaskBtn.task = task;
+                const selectedTask = task;
+                console.log(selectedTask);
+                const selectedTaskId = task.id;
+                console.log(selectedTaskId);
+                const index = tasks.findIndex(p => p.id === selectedTaskId);
+                if(index >= 0){
+                    tasks.splice(index, 1);                  
+                }
+                  displayTasks(tasks);
+            });
+        
+        tasksContainer.appendChild(taskCard);    
+    });   
+
 }
 
-
-export { displayProject, displayTask };
+export { displayProject, displayTasks };
